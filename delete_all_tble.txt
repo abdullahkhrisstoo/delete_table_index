@@ -1,0 +1,16 @@
+BEGIN
+    FOR t IN (SELECT table_name FROM user_tables) LOOP
+        EXECUTE IMMEDIATE 'DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS';
+    END LOOP;
+
+    FOR i IN (SELECT index_name FROM user_indexes) LOOP
+        EXECUTE IMMEDIATE 'DROP INDEX ' || i.index_name;
+    END LOOP;
+END;
+/
+
+-- Optionally, you can include a confirmation message for better tracking.
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('All tables and indexes in the schema have been dropped.');
+END;
+/
