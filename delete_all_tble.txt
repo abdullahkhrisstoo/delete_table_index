@@ -13,4 +13,18 @@ END;
 BEGIN
     DBMS_OUTPUT.PUT_LINE('All tables and indexes in the schema have been dropped.');
 END;
+
+BEGIN
+    FOR pkg IN (SELECT object_name FROM user_objects WHERE object_type = 'PACKAGE') LOOP
+        EXECUTE IMMEDIATE 'DROP PACKAGE ' || pkg.object_name;
+    END LOOP;
+END;
+/
+
+-- Drop all functions
+BEGIN
+    FOR func IN (SELECT object_name FROM user_objects WHERE object_type = 'FUNCTION') LOOP
+        EXECUTE IMMEDIATE 'DROP FUNCTION ' || func.object_name;
+    END LOOP;
+END;
 /
